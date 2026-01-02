@@ -10,7 +10,7 @@ const NavBar = () => {
   const { userId } = useAuth();
 
   return (
-    <div className="sticky left-0 top-0 w-full py-1 z-20">
+    <div className="sticky left-0 top-0 w-full py-1 z-10 bg-slate-900/10 backdrop-blur">
       <Container>
         <div className="flex items-center justify-between gap-4 py-3 border-b border-white/10">
           <Link href={"/"} className="flex items-center gap-1.5">

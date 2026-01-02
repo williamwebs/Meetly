@@ -3,6 +3,7 @@ import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/layout/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
+import SocketProvider from "@/providers/socket-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,10 +28,12 @@ export default function RootLayout({
         <body
           className={`${inter.className} ${geistMono.variable} antialiased`}
         >
-          <main className="flex flex-col min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 text-white relative">
-            <NavBar />
-            {children}
-          </main>
+          <SocketProvider>
+            <main className="flex flex-col min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 text-white relative">
+              <NavBar />
+              {children}
+            </main>
+          </SocketProvider>
         </body>
       </html>
     </ClerkProvider>

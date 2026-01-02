@@ -4,52 +4,58 @@ import { Phone } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import Avatar from "./avatar";
-
-const mockUsers = [
-  {
-    id: 0,
-    name: "John Doe",
-    firstName: "John",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-    status: "online",
-  },
-  { id: 1, name: "Sarah Johnson", status: "online" },
-  { id: 2, name: "David Kim", status: "online" },
-  { id: 3, name: "Amina Bello", status: "online" },
-  { id: 4, name: "Lucas Meyer", status: "online" },
-];
+import { useSocket } from "@/context/socket-context";
+import { useUser } from "@clerk/nextjs";
 
 const ListOnlineUsers = () => {
+  const { user } = useUser();
+  const { onlineUsers } = useSocket();
+
+  if (onlineUsers?.length === 0) {
+    return (
+      <div className="text-white/70 text-center mt-8 border">
+        No user is online
+      </div>
+    );
+  }
+
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-8">
-      {mockUsers.map((user) => (
-        <Card
-          key={user.id}
-          className="bg-white/5 border-white/10 backdrop-blur hover:bg-white/10 transition"
-        >
-          <CardContent className="p-5 flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Avatar />
-                <div className="flex flex-col gap-1">
-                  <p className="font-medium text-white">{user.name}</p>
-                  <span className="text-xs text-emerald-400 -mt-1 inline-block">
-                    ● Online
-                  </span>
-                </div>
-              </div>
-            </div>
+      {onlineUsers &&
+        onlineUsers.map((onlineUser) => {
+          if (onlineUser.profile.id === user?.id) return;
 
-            <Button
-              variant="outline"
-              className="border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-black flex items-center gap-2"
+          return (
+            <Card
+              key={onlineUser.userId}
+              className="bg-white/5 border-white/10 backdrop-blur hover:bg-white/10 transition"
             >
-              <Phone className="h-4 w-4" />
-              Call
-            </Button>
-          </CardContent>
-        </Card>
-      ))}
+              <CardContent className="p-5 flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Avatar src={onlineUser.profile.imageUrl} />
+                    <div className="flex flex-col gap-1">
+                      <p className="font-medium text-white">
+                        {onlineUser.profile.fullName}
+                      </p>
+                      <span className="text-xs text-emerald-400 -mt-1 inline-block">
+                        ● Online
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <Button
+                  variant="outline"
+                  className="border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-black flex items-center gap-2"
+                >
+                  <Phone className="h-4 w-4" />
+                  Call
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
     </div>
   );
 };
