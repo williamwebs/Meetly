@@ -2,6 +2,7 @@ import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
 import { onCall } from "./socket-events/onCall.js";
+import { onHangup } from "./socket-events/onHangup.js";
 import { onWebrtcSignal } from "./socket-events/onWebrtcSignal.js";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -47,6 +48,7 @@ app.prepare().then(() => {
     // call events
     socket.on("call", onCall);
     socket.on("webrtcSignal", onWebrtcSignal);
+    socket.on("hangup", onHangup)
   });
 
   httpServer

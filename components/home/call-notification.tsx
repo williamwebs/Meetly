@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 import { Phone, PhoneOff } from "lucide-react";
 
 const CallNotification = () => {
-  const { ongoingCall, handleJoinCall } = useSocket();
+  const { ongoingCall, handleJoinCall, handleHangup } = useSocket();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
@@ -48,20 +48,21 @@ const CallNotification = () => {
     };
   }, [ongoingCall, startRingtone, stopRingtone]);
 
-     React.useEffect(() => {
-     const unlock = () => {
-       if (!audioRef.current) {
-         audioRef.current = new Audio("/sounds/ringtone.mp3");
-         audioRef.current.loop = true;
-       }
-       audioRef.current.play().catch(() => {});
-       document.removeEventListener("click", unlock);
-     };
-     document.addEventListener("click", unlock, { once: true });
-     return () => document.removeEventListener("click", unlock);
-   }, []);
+  React.useEffect(() => {
+    const unlock = () => {
+      if (!audioRef.current) {
+        audioRef.current = new Audio("/sounds/ringtone.mp3");
+        audioRef.current.loop = true;
+      }
+      audioRef.current.play().catch(() => {});
+      document.removeEventListener("click", unlock);
+    };
+    document.addEventListener("click", unlock, { once: true });
+    return () => document.removeEventListener("click", unlock);
+  }, []);
 
   if (!ongoingCall?.isRinging) return;
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent
@@ -97,7 +98,14 @@ const CallNotification = () => {
             </Button>
 
             <Button
-              // onClick={rejectCall}
+              onClick={() => {
+                stopRingtone();
+                handleHangup({
+                  ongoingCall: ongoingCall ? ongoingCall : undefined,
+                  isEmittingHangup: true,
+                });
+                setIsOpen(false);
+              }}
               className="h-12 w-12 rounded-full bg-red-500 hover:bg-red-600 text-white"
             >
               <PhoneOff className="h-5 w-5" />
