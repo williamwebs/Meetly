@@ -106,7 +106,7 @@ const VideoCall = () => {
       <DialogContent
         onInteractOutside={(event) => event.preventDefault()}
         onEscapeKeyDown={(event) => event.preventDefault()}
-        className="bg-slate-900 border-white/10 text-white min-w-200"
+        className="bg-slate-900 border-white/10 text-white w-full md:min-w-200"
       >
         <div className="relative">
           {localStream && (
@@ -126,7 +126,7 @@ const VideoCall = () => {
 
           {/* timer when there is a peer && peer.stream */}
           {peer && peer.stream && (
-            <div className="px-4 py-0.5 border border-emerald-600 rounded-full min-w-20 bg-white/10 backdrop-blur text-emerald-500 absolute top-1 right-1 flex items-center justify-center">
+            <div className="px-2 md:px-4 py-0.5 border border-emerald-600 rounded-full min-w-20 bg-white/10 backdrop-blur text-emerald-500 text-xs md:text-sm absolute top-1 right-1 flex items-center justify-center">
              {formatTime(elapsedSeconds)}
             </div>
           )}

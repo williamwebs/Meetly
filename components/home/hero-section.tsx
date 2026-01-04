@@ -1,11 +1,16 @@
+"use client";
+
 import { Users } from "lucide-react";
 import { Button } from "../ui/button";
 import Container from "../layout/container";
 import ListOnlineUsers from "./list-online-users";
 import CallNotification from "./call-notification";
 import VideoCall from "./video-call";
+import { useUser } from "@clerk/nextjs";
 
 const HeroSection = () => {
+  const { user } = useUser();
+
   return (
     <div>
       <Container>
@@ -36,6 +41,7 @@ const HeroSection = () => {
             </header>
 
             {/* list online users */}
+            {!user && <div className="text-white/70 text-center mt-10">Log in to see online users.</div>}
             <ListOnlineUsers />
           </div>
         </div>

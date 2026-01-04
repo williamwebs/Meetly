@@ -36,30 +36,30 @@ const CallNotification = () => {
 
   React.useEffect(() => {
     if (ongoingCall?.isRinging) {
-      startRingtone();
+    //   startRingtone();
       setIsOpen(true);
     } else {
-      stopRingtone();
+    //   stopRingtone();
       setIsOpen(false);
     }
 
     return () => {
-      stopRingtone();
+    //   stopRingtone();
     };
-  }, [ongoingCall, startRingtone, stopRingtone]);
+  }, [ongoingCall]);
 
-  React.useEffect(() => {
-    const unlock = () => {
-      if (!audioRef.current) {
-        audioRef.current = new Audio("/sounds/ringtone.mp3");
-        audioRef.current.loop = true;
-      }
-      audioRef.current.play().catch(() => {});
-      document.removeEventListener("click", unlock);
-    };
-    document.addEventListener("click", unlock, { once: true });
-    return () => document.removeEventListener("click", unlock);
-  }, []);
+//   React.useEffect(() => {
+//     const unlock = () => {
+//       if (!audioRef.current) {
+//         audioRef.current = new Audio("/sounds/ringtone.mp3");
+//         audioRef.current.loop = true;
+//       }
+//       audioRef.current.play().catch(() => {});
+//       document.removeEventListener("click", unlock);
+//     };
+//     document.addEventListener("click", unlock, { once: true });
+//     return () => document.removeEventListener("click", unlock);
+//   }, []);
 
   if (!ongoingCall?.isRinging) return;
 
@@ -99,7 +99,7 @@ const CallNotification = () => {
 
             <Button
               onClick={() => {
-                stopRingtone();
+                // stopRingtone();
                 handleHangup({
                   ongoingCall: ongoingCall ? ongoingCall : undefined,
                   isEmittingHangup: true,

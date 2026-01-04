@@ -29,7 +29,7 @@ const VideoContainer = ({
         "rounded border w-200",
         isLocalStream &&
           isOnCall &&
-          "w-50 h-auto absolute border-purple-500 border-2"
+          "w-24 md:w-50 h-auto absolute border-purple-500 border-2"
       )}
       autoPlay
       playsInline
