@@ -123,3 +123,23 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+@keyframes breathe {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+}
+
+.breathe-emerald {
+  animation: breathe 2s ease-in-out infinite;
+}
+
+
+

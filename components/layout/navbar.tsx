@@ -30,7 +30,7 @@ const NavBar = () => {
                 className="bg-emerald-500 hover:bg-emerald-600 text-black cursor-pointer"
                 asChild
               >
-                <Link href={"/sign-up"}>Sign in</Link>
+                <Link href={"/sign-up"}>Sign up</Link>
               </Button>
             </div>
           )}

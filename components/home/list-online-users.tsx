@@ -6,10 +6,12 @@ import { Card, CardContent } from "../ui/card";
 import Avatar from "./avatar";
 import { useSocket } from "@/context/socket-context";
 import { useUser } from "@clerk/nextjs";
+import { SocketUser } from "@/types";
 
 const ListOnlineUsers = () => {
   const { user } = useUser();
-  const { onlineUsers, handleCall } = useSocket();
+  const { onlineUsers, handleCall, peer, isCallEnded, ongoingCall } =
+    useSocket();
 
   if (onlineUsers?.length === 0) {
     return (
@@ -33,7 +35,9 @@ const ListOnlineUsers = () => {
               <CardContent className="p-5 flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Avatar src={onlineUser.profile.imageUrl} />
+                    <Avatar
+                      src={onlineUser.profile.imageUrl}
+                    />
                     <div className="flex flex-col gap-1">
                       <p className="font-medium text-white">
                         {onlineUser.profile.fullName}
