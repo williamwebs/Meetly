@@ -2,6 +2,8 @@ import { Users } from "lucide-react";
 import { Button } from "../ui/button";
 import Container from "../layout/container";
 import ListOnlineUsers from "./list-online-users";
+import CallNotification from "./call-notification";
+import VideoCall from "./video-call";
 
 const HeroSection = () => {
   return (
@@ -38,6 +40,8 @@ const HeroSection = () => {
           </div>
         </div>
       </Container>
+      <CallNotification />
+      <VideoCall />
     </div>
   );
 };

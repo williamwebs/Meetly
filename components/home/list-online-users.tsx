@@ -9,7 +9,7 @@ import { useUser } from "@clerk/nextjs";
 
 const ListOnlineUsers = () => {
   const { user } = useUser();
-  const { onlineUsers } = useSocket();
+  const { onlineUsers, handleCall } = useSocket();
 
   if (onlineUsers?.length === 0) {
     return (
@@ -46,6 +46,7 @@ const ListOnlineUsers = () => {
                 </div>
 
                 <Button
+                  onClick={() => handleCall(onlineUser)}
                   variant="outline"
                   className="border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-black flex items-center gap-2"
                 >
