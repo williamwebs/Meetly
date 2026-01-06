@@ -26,7 +26,7 @@ const VideoContainer = ({
     <video
       ref={videoRef}
       className={cn(
-        "rounded border w-200",
+        "rounded border w-200 max-h-100 h-full",
         isLocalStream &&
           isOnCall &&
           "w-24 md:w-50 h-auto absolute border-purple-500 border-2"

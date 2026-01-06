@@ -76,7 +76,7 @@ export const SocketContextProvider = ({
       } catch (error) {
         console.error("Error getting stream");
         setLocalStream(null);
-        return;
+        return null;
       }
     },
     [localStream]
@@ -142,7 +142,7 @@ export const SocketContextProvider = ({
         config: { iceServers },
       });
       // emit stream event & setPeer state in peer.on("stream",(()=> {}))
-      peer.on("stream", () => {
+      peer.on("stream", (stream) => {
         setPeer((prevPeer) => (prevPeer ? { ...prevPeer, stream } : prevPeer));
       });
       // listen for errors and close events ==> peer.on("error", console.error)
@@ -176,7 +176,11 @@ export const SocketContextProvider = ({
       const stream = await getMediaStream();
       // if !stream, hangup call
       if (!stream) {
-        // hangup
+        console.log("Could not get stream in handleJoinCall");
+        handleHangup({
+          ongoingCall: ongoingCall ? ongoingCall : undefined,
+          isEmittingHangup: true,
+        });
         return;
       }
       // create peer
@@ -292,10 +296,17 @@ export const SocketContextProvider = ({
   }, [socket]);
 
   React.useEffect(() => {
-    if (!socket || !isConnected || !user) return;
+    if (!socket || !isConnected) return;
 
     socket.emit("addNewUser", user);
     socket.on("getUsers", (response) => setOnlineUsers(response));
+
+     // cleanup function
+    return () => {
+      socket.off("getUsers", (res) => {
+        setOnlineUsers(res);
+      });
+    };
   }, [socket, isConnected, user]);
 
   //   call events

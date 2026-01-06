@@ -106,9 +106,9 @@ const VideoCall = () => {
       <DialogContent
         onInteractOutside={(event) => event.preventDefault()}
         onEscapeKeyDown={(event) => event.preventDefault()}
-        className="bg-slate-900 border-white/10 text-white w-full md:min-w-200"
+        className="bg-slate-900 border-white/10 text-white w-full max-h-screen md:max-h-150 md:min-w-200"
       >
-        <div className="relative">
+        <div className="relative min-h-120">
           {localStream && (
             <VideoContainer
               stream={localStream}
